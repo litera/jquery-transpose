@@ -1,0 +1,69 @@
+<html>
+	<head>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+		<script type="text/javascript" src="jquery.transpose.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+
+				$("#Generate").click(function(evt){
+					evt.preventDefault();
+					var wrapper = $(".wrapper");
+					wrapper.children().remove();
+					for(var i = 0; i < $("#ItemCount").val(); i++)
+					{
+						wrapper.append('<div class="item"><div class="name">Person ' + (i + 1) + '</div><div class="desc">Address is unknown</div></div>');
+					}
+				});
+
+				$("#Transpose").click(function(evt){
+					evt.preventDefault();
+					$(".wrapper .item").transpose();
+				});
+
+			});
+		</script>
+		<style>
+			body
+			{
+				font-family: sans-serif;
+				font-size: 10pt;
+				line-height: 1.2em;
+			}
+			#form
+			{
+				clear: both;
+			}
+			#w
+			{
+				margin: 2em 2em;
+				overflow: auto;
+			}
+			.item
+			{
+				float: left;
+				width: 10em;
+				margin: 0 2em 0 0;
+				border-right: 1px solid #eee;
+				padding: 0 0 5px 0;
+			}
+				.item .name
+				{
+				}
+				.item .desc
+				{
+					font-size: 8pt;
+					color: #ccc;
+				}
+		</style>
+	</head>
+	<body>
+		<div id="form">
+			How many items would you like to generate?
+			<input type="text" id="ItemCount"></input>
+			<button type="button" id="Generate">Generate</button>
+			<button type="button" id="Transpose">Transpose</button>
+		</div>
+		<div id="w" class="wrapper">
+		</div>
+	</body>
+</html>
