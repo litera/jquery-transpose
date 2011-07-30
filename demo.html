@@ -8,7 +8,7 @@
 				$("#Generate").click(function(evt){
 					evt.preventDefault();
 					var wrapper = $(".wrapper");
-					wrapper.children().remove();
+					wrapper.removeData("transposed").children().remove();
 					for(var i = 0; i < $("#ItemCount").val(); i++)
 					{
 						wrapper.append('<div class="item"><div class="name">Person ' + (i + 1) + '</div><div class="desc">Address is unknown</div></div>');

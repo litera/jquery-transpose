@@ -1,7 +1,7 @@
 /*!
  * jQuery transpose() plugin
  *
- * Version 1.0 (30 Jul 2011)
+ * Version 1.1 (30 Jul 2011)
  *
  * Copyright (c) 2011 Robert Koritnik
  * Licensed under the terms of the MIT license
@@ -9,6 +9,12 @@
  */
 
 (function($) {
+	
+	var keys = {
+		containerKey: "transposed",
+		itemKey: "pre-transpose-index"
+	};
+
 	$.fn.extend({
 
 		transpose: function() {
@@ -26,42 +32,45 @@
 				
 					var dom = this;
 					var container = $(this);
-					var items = originalSet.filter(function() {
-						return this.parentNode == dom;
-					});
-					var itemCount = items.length;
-					var newOrder;
-					
-					// only transpose when there're enough items
-					if (itemCount > 2)
+					if (typeof(container.data(keys.containerKey)) == "undefined")
 					{
-						// calculate number of columns and rows
-						var cols;
-						var firstTop = items.eq(0).position().top;
-						for (cols = 1; cols < itemCount && firstTop == items.eq(cols).position().top; cols++);
-
-						var rows = parseInt(itemCount / cols) + 1;
-					
-						// only apply transposition when there's enough items (more than one column and more than one row)
-						if (itemCount > cols && cols > 1)
+						container.data(keys.containerKey, true);
+						var items = originalSet.filter(function() {
+							return this.parentNode == dom;
+						});
+						var itemCount = items.length;
+						var newOrder;
+						
+						// only transpose when there're enough items
+						if (itemCount > 2)
 						{
-							var columnHeight = [];
-							for (var i = 0; i < cols; i++) columnHeight.push(rows - (i % cols < itemCount % cols ? 0 : 1));
-							
-							newOrder = $();
-							var index = 0;
-							for (var i = 0; i < itemCount; i++)
+							// calculate number of columns and rows
+							var cols;
+							var firstTop = items.eq(0).position().top;
+							for (cols = 1; cols < itemCount && firstTop == items.eq(cols).position().top; cols++);
+
+							var rows = parseInt(itemCount / cols) + 1;
+						
+							// only apply transposition when there's enough items (more than one column and more than one row)
+							if (itemCount > cols && cols > 1)
 							{
-								newOrder = newOrder.add(items.eq(index).detach());
-								index += columnHeight[i % cols];
-								if (index >= itemCount) index++;
-								index = index % itemCount;
+								var columnHeight = [];
+								for (var i = 0; i < cols; i++) columnHeight.push(rows - (i % cols < itemCount % cols ? 0 : 1));
+								
+								newOrder = $();
+								var index = 0;
+								for (var i = 0; i < itemCount; i++)
+								{
+									newOrder = newOrder.add(items.eq(index).detach().data(keys.itemKey, index));
+									index += columnHeight[i % cols];
+									if (index >= itemCount) index++;
+									index = index % itemCount;
+								}
+								
+								container.append(newOrder);
 							}
-							
-							container.append(newOrder);
 						}
 					}
-					
 				});
 			}
 		   
