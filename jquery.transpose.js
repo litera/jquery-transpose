@@ -1,7 +1,7 @@
 /*!
  * jQuery transpose() plugin
  *
- * Version 1.1 (30 Jul 2011)
+ * Version 1.2 (2 Aug 2011)
  *
  * Copyright (c) 2011 Robert Koritnik
  * Licensed under the terms of the MIT license
@@ -66,8 +66,9 @@
 									if (index >= itemCount) index++;
 									index = index % itemCount;
 								}
-								
-								container.append(newOrder);
+
+								// add non-HTML line break after each element to preserve inline elements' spacing
+								newOrder.appendTo(container).after("\n");
 							}
 						}
 					}
