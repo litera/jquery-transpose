@@ -32,7 +32,7 @@
 				
 					var dom = this;
 					var container = $(this);
-					if (typeof(container.data(keys.containerKey)) == "undefined")
+					if (typeof(container.data(keys.containerKey)) != "undefined")
 					{
 						container.data(keys.containerKey, true);
 						var items = originalSet.filter(function() {
